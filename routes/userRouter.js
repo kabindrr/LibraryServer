@@ -1,19 +1,27 @@
 import express from "express";
 import { addUser, getUser } from "../model/userModal.js";
+import { hashPassword } from "../utils/bcrypt.js";
 
-export const userRouter = express.Router();
+const userRouter = express.Router();
 
-userRouter.post("/", async (req, res) => {
-  console.log("some message received from frontend", req.body);
+// signup
+userRouter.post("/signup", async (req, res) => {
+  req.body.password = hashPassword(req.body.password);
   const result = await addUser(req.body);
 
-  res.json({
-    result,
-    message: "Following user has been added to the database",
-  });
+  result?._id
+    ? res.json({
+        status: "success",
+        message: "Following user has been added to the database",
+      })
+    : res.json({
+        status: "error",
+        message: "eeError message",
+      });
 });
 
-userRouter.get("/", async (req, res) => {
+//login
+userRouter.post("/login", async (req, res) => {
   const result = await getUser(req.body);
 
   res.json({
@@ -21,3 +29,5 @@ userRouter.get("/", async (req, res) => {
     message: "Here is the user you are looking for",
   });
 });
+
+export default userRouter;

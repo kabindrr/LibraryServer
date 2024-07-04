@@ -6,8 +6,8 @@ export const addUser = (item) => {
 };
 
 // read
-export const getUser = () => {
-  return userSchema.findById();
+export const getUser = (filter) => {
+  return userSchema.findOne(filter);
 };
 
 // update
