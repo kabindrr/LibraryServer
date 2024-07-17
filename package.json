@@ -14,10 +14,13 @@
     "cors": "^2.8.5",
     "express": "^4.19.2",
     "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "module": "^1.2.5",
     "mongoose": "^8.4.4",
     "morgan": "^1.10.0",
+    "nodemailer": "^6.9.14",
     "react-redux": "^9.1.2",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "uuid": "^10.0.0"
   }
 }

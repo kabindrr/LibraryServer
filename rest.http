@@ -1,0 +1,11 @@
+###
+POST localhost:8010/api/v1/users/signup
+Content-Type: application/json
+
+{
+    "fName": "test",
+    "lName": 89,
+    "phone": 999,
+    "email": "test@gmail.com",
+    "password": "11"
+}

@@ -30,6 +30,7 @@ app.get("/", (req, res) => {
     message: "Server Online",
   });
 });
+
 app.listen(PORT, (error) => {
   error
     ? console.log("server error")

@@ -1,6 +1,10 @@
 import mongoose, { Schema } from "mongoose";
 
 const userSchema = new Schema({
+  isEmailVerified: {
+    type: Boolean,
+    default: false,
+  },
   fName: {
     type: String,
     required: true,
@@ -20,6 +24,10 @@ const userSchema = new Schema({
   password: {
     type: String,
     required: true,
+  },
+  refreshJWT: {
+    type: String,
+    default: "",
   },
 });
 export default mongoose.model("StudentList", userSchema);
