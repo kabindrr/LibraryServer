@@ -7,7 +7,7 @@ export const addToken = (item) => {
 
 // read
 export const getToken = (token) => {
-  return sessionSchema.findOne({ token });
+  return sessionSchema.findOne({ token, associate });
 };
 
 // // update
