@@ -4,6 +4,7 @@ const STR = joi.string();
 const STR_REQUIRED = joi.string().required();
 const PHONE = joi.number().allow("", null);
 const EMAIL = joi.string().email({ minDomainSegments: 2 });
+
 const NUM_REQ = joi.number();
 const ISTRUE = joi.boolean().allow(null);
 
