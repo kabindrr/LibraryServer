@@ -6,8 +6,8 @@ export const addToken = (item) => {
 };
 
 // read
-export const getToken = (token) => {
-  return sessionSchema.findOne({ token, associate });
+export const getToken = (tokenObj) => {
+  return sessionSchema.findOne(tokenObj);
 };
 
 // // update
@@ -15,7 +15,7 @@ export const getToken = (token) => {
 //   return userSchema.findByIdAndUpdate();
 // };
 
-// // delete
-// export const deleteUser = () => {
-//   return userSchema.findByIdAndDelete();
-// };
+// delete
+export const deleteToken = (_id) => {
+  return sessionSchema.findByIdAndDelete(_id);
+};

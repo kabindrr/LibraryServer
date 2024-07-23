@@ -32,7 +32,7 @@ export const emailVerification = async (to, fName, uniqueKey) => {
     text: `Hello ${fName}, Please follow the link to verify email`, // plain text body
     html: `<div>
     <b>Hello ${fName}, Ready to verify your email? Click button </b>
-    <a href = "localhost:5173/verify-email?ukey=${uniqueKey}&e=${to}" type="_blank">
+    <a href = "http://localhost:5173/verify-email?ukey=${uniqueKey}&e=${to}" type="_blank"> 
     <button>Verify Now</button>
     </a>
     </div>`, // html body

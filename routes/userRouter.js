@@ -1,12 +1,16 @@
 import express from "express";
-import { addUser, getUser } from "../model/userModal.js";
+import { addUser, getUser, updateUser } from "../model/userModal.js";
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
 import {
   signAccessJWT,
   signRefreshJWT,
   verifyAccessJWT,
 } from "../utils/jwt.js";
-import { addToken, getToken } from "../model/session/sessionModal.js";
+import {
+  addToken,
+  deleteToken,
+  getToken,
+} from "../model/session/sessionModal.js";
 import { auth } from "../middlewares/auth.js";
 import { newUserValidation } from "../middlewares/joiValidation.js";
 import { emailVerification } from "../utils/nodemailer.js";
@@ -27,7 +31,7 @@ userRouter.post("/signup", newUserValidation, async (req, res, next) => {
     await emailVerification(result?.email, result?.fName, uniqueKey);
 
     // save unique key as token and email as associate in session table which will be used to verify email
-    await addToken({ token: uniqueKey, associate });
+    await addToken({ token: uniqueKey, associate: result?.email });
 
     return res.json({
       status: "success",
@@ -84,11 +88,15 @@ userRouter.get("/user-profile", auth, async (req, res, next) => {
   try {
     const user = req.userInfo;
 
+    // for jwt auth
+    // const {email} = req.userInfo
+
     // 6. send the user back to frontend
     return res.json({
       status: "success",
       message: "User Profile Found",
       user,
+      // accessJWT: signAccessJWT(email)
     });
   } catch (error) {
     console.log("User Profile Error: ", error);
@@ -108,5 +116,47 @@ userRouter.get("/user-profile", auth, async (req, res, next) => {
 // 4. delete that token
 // 5. notification email saying account verified
 // 6. res.json to frontend
+
+userRouter.post("/verify-email", async (req, res, next) => {
+  try {
+    // 1. get unique and email in req.body
+    const { ukey, e } = req.body;
+
+    // 2. check if token is present with same unique key as token and email as associate
+    const tokenInSessionTable = await getToken({ token: ukey, associate: e });
+
+    // 3. update User ==> isEmailVerifiec:true
+    if (tokenInSessionTable?._id) {
+      const updatedUser = await updateUser(
+        { email: e },
+        { isEmailVerified: true }
+      );
+
+      // 4. delete that token
+      if (updatedUser?._id) {
+        await deleteToken(tokenInSessionTable._id);
+
+        // 6. res.json to frontend
+        return res.json({
+          status: "success",
+          message: "Email Verified, Login Now",
+        });
+      }
+    }
+
+    //if error in verifying token
+    res.json({
+      status: "error",
+      message: "Crowdstrike.....Oh noooooo",
+    });
+  } catch (error) {
+    console.log("User Email Verify Error: ", error);
+
+    res.json({
+      status: "error",
+      message: error.message,
+    });
+  }
+});
 
 export default userRouter;

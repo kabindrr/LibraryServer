@@ -21,7 +21,9 @@ export const auth = async (req, res, next) => {
 
     // 3. extract email if verified and get tokenObj from session table using authorization
     if (verified?.email) {
-      const tokenObj = await getToken(authorization);
+      const tokenObj = await getToken({
+        token: authorization,
+      });
 
       // 4. if tokenObj has _id, using email get user
       if (tokenObj?._id) {

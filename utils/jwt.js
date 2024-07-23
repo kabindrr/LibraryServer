@@ -8,7 +8,9 @@ const Refresh_Secret_Key = "xcfghjnhbvfftygvb";
 // for access JWT
 // 1. sign access
 export const signAccessJWT = (email) => {
-  const token = JWT.sign({ email }, Access_Secret_Key, { expiresIn: "20m" });
+  const token = JWT.sign({ email }, Access_Secret_Key, {
+    expiresIn: "20m",
+  });
   // save to session table
   addToken({ token });
   return token;

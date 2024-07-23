@@ -1,10 +1,10 @@
 ###
-POST localhost:8010/api/v1/users/signup
+POST http://localhost:8010/api/v1/users/signup
 Content-Type: application/json
 
 {
     "fName": "test",
-    "lName": 89,
+    "lName": "testt",
     "phone": 999,
     "email": "test@gmail.com",
     "password": "11"
